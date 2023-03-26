@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Test</title>
+</head>
+<form method="POST" enctype="multipart/form-data">
+    {% csrf_token %}
+    <div class="flex-v">
+        <input type="file" name="mainImg">
+        <input type="submit">
+    </div>
+
+    <!-- <div class="container">
+        <div class="flex-v">
+            <img src="t20.jpg" alt="Supply Image first" class="mainImg">
+            <img src="" alt="Number Plate will show here" class="detectedPlate">
+        </div>
+        
+    </div> -->
+</form>
+
+<body>
+
+</body>
+
+</html>
