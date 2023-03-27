@@ -134,15 +134,14 @@ function recognizeFile(file) {
 			// console.log()
 			document.getElementById('startPre').innerHTML = cleanResult(data.text);
 
+			var formData = new FormData();
+			formData.append('plateNum', cleanResult(data.text));
+			formData.append('currDate', 1235476575);
+
 			//send data to server using fetch
 			fetch('/ocr/', {
 				method: 'POST',
-				headers: {
-					'Content-Type': 'application/json'
-				},
-				body: JSON.stringify({
-					"ocrData": cleanResult(data.text)
-				})
+				body: formData
 			})
 				.then(res => res.json())
 				.then(data => {

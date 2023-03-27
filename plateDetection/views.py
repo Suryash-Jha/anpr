@@ -5,6 +5,7 @@ import matplotlib.pyplot as plt
 import cv2
 from PIL import Image
 import time
+import json
 from django.views.decorators.csrf import csrf_exempt
 
 
@@ -91,25 +92,46 @@ def getExtractedImg(request, currTime):
 def apiExtractedData(request, currTime):
 
     # return json
+    extractedVal = ''
+    with open('static/json/Extracteddata.json', 'r') as f:
+        # Load the JSON data from the file
+        data = json.load(f)
+        extractedVal = data['data'][str(currTime)]
+
     return JsonResponse({
         'recvdImageLocation': 'http://127.0.0.1:8000/getRecvdImg/'+str(currTime),
         'clearImageLocation': 'http://127.0.0.1:8000/getClearImg/'+str(currTime),
         'extractedImageLocation': 'http://127.0.0.1:8000/getClearImg/'+str(currTime),
-        'extractedData': 'MH 12 AB 1234',
+        'extractedData': extractedVal,
     })
+
+
+def addDatatoJson(currDate, plateNum):
+    fileName = 'static/json/Extracteddata.json'
+    with open(fileName, 'r') as f:
+        data = json.load(f)
+        data['data'][currDate] = plateNum
+
+    with open(fileName, 'w') as f:
+        json.dump(data, f)
 
 
 @csrf_exempt
 def storeData(request):
     try:
+        # print("working")
         if request.method == 'POST':
-            print(request.body)
-
+            # print(request.POST)
+            # print(request.POST.get('plateNum', ''))
+            addDatatoJson(request.POST.get('currDate', ''),
+                          request.POST.get('plateNum', ''))
+            # print(request.POST['name'])
         # store data in database
-        return JsonResponse({
-            'status': 'success',
-            'message': 'Data stored successfully',
-        })
+            return JsonResponse({
+                'status': 'success',
+                'message': 'Data stored successfully',
+                # 'got': request.POST['name'],
+            })
     except Exception as e:
         print(e)
         return JsonResponse({
