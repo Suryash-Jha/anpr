@@ -133,6 +133,29 @@ function recognizeFile(file) {
 			console.log("Output through OCR", data.text)
 			// console.log()
 			document.getElementById('startPre').innerHTML = cleanResult(data.text);
+
+			//send data to server using fetch
+			fetch('/ocr/', {
+				method: 'POST',
+				headers: {
+					'Content-Type': 'application/json'
+				},
+				body: JSON.stringify({
+					"ocrData": cleanResult(data.text)
+				})
+			})
+				.then(res => res.json())
+				.then(data => {
+					console.log("data sent to server")
+					// document.getElementById('endPre').innerHTML = data['result'];
+				})
+				.catch(err => {
+					console.log(err)
+				})
+
+
+
+
 			// progressUpdate({ status: 'done', data: data })
 		})
 }

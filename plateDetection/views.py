@@ -5,6 +5,8 @@ import matplotlib.pyplot as plt
 import cv2
 from PIL import Image
 import time
+from django.views.decorators.csrf import csrf_exempt
+
 
 # Create your views here.
 
@@ -95,6 +97,25 @@ def apiExtractedData(request, currTime):
         'extractedImageLocation': 'http://127.0.0.1:8000/getClearImg/'+str(currTime),
         'extractedData': 'MH 12 AB 1234',
     })
+
+
+@csrf_exempt
+def storeData(request):
+    try:
+        if request.method == 'POST':
+            print(request.body)
+
+        # store data in database
+        return JsonResponse({
+            'status': 'success',
+            'message': 'Data stored successfully',
+        })
+    except Exception as e:
+        print(e)
+        return JsonResponse({
+            'status': 'error',
+            'message': 'Some error occured',
+        })
 
 
 def home(request):

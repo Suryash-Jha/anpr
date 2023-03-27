@@ -13,6 +13,7 @@ urlpatterns = [
     path('getClearImg/<int:currTime>', views.getClearImg),
     path('getExtractedImg/<int:currTime>', views.getExtractedImg),
     path('apiExtractedData/<int:currTime>', views.apiExtractedData),
+    path('ocr/', views.storeData),
 
 
     # path('profile/', views.profile),
