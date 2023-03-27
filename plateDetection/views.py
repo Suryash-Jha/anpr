@@ -1,4 +1,5 @@
 from django.shortcuts import render
+from django.http import FileResponse, JsonResponse
 import numpy as np
 import matplotlib.pyplot as plt
 import cv2
@@ -65,6 +66,35 @@ def extractAndSaveNumberPlate(currTime):
 
         return carplate_overlay
     detected_carplate_img = carplate_detect(carplate_img_rgb)
+
+
+def getRecvdImg(request, currTime):
+    # currTime = int(round(time.time() * 1000))
+    fileName = f'static/img/recvd/recvd_{currTime}.jpg'
+    return FileResponse(open(fileName, 'rb'), content_type='image/jpg')
+
+
+def getClearImg(request, currTime):
+    # currTime = int(round(time.time() * 1000))
+    fileName = f'static/img/clear/clear_{currTime}.jpg'
+    return FileResponse(open(fileName, 'rb'), content_type='image/jpg')
+
+
+def getExtractedImg(request, currTime):
+    # currTime = int(round(time.time() * 1000))
+    fileName = f'static/img/extracted/extracted_{currTime}.png'
+    return FileResponse(open(fileName, 'rb'), content_type='image/png')
+
+
+def apiExtractedData(request, currTime):
+
+    # return json
+    return JsonResponse({
+        'recvdImageLocation': 'http://127.0.0.1:8000/getRecvdImg/'+str(currTime),
+        'clearImageLocation': 'http://127.0.0.1:8000/getClearImg/'+str(currTime),
+        'extractedImageLocation': 'http://127.0.0.1:8000/getClearImg/'+str(currTime),
+        'extractedData': 'MH 12 AB 1234',
+    })
 
 
 def home(request):

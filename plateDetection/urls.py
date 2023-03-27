@@ -9,6 +9,11 @@ from django.conf.urls.static import static
 urlpatterns = [
     path('', views.tempResult),
     path('temp/', views.home),
+    path('getRecvdImg/<int:currTime>', views.getRecvdImg),
+    path('getClearImg/<int:currTime>', views.getClearImg),
+    path('getExtractedImg/<int:currTime>', views.getExtractedImg),
+    path('apiExtractedData/<int:currTime>', views.apiExtractedData),
+
 
     # path('profile/', views.profile),
 ]
